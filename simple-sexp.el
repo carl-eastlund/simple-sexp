@@ -70,7 +70,7 @@
 (defun simple-sexp-balanced-open (arg)
   (interactive "P")
   (let* ((arg (if arg (prefix-numeric-value arg) 0))
-         (ch last-input-char)
+         (ch last-input-event)
          (endch (cdr (aref (syntax-table) ch))))
     (cond
       ((my-mid-escape-p (point)) (insert ch) (delete-char 1))
@@ -84,12 +84,12 @@
 (defun simple-sexp-balanced-close ()
   (interactive)
   (cond
-    ((my-mid-escape-p (point)) (insert last-input-char) (delete-char 1))
+    ((my-mid-escape-p (point)) (insert last-input-event) (delete-char 1))
     (t (up-list 1) (blink-matching-open))))
 
 (defun simple-sexp-balanced-string ()
   (interactive)
-  (let* ((ch last-input-char))
+  (let* ((ch last-input-event))
     (cond
       ((my-mid-escape-p (point)) (insert ch) (delete-char 1))
       ((= (following-char) ch) (forward-char))
