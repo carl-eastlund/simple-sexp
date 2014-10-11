@@ -148,7 +148,11 @@
 	      ((and str (or sym (string= (downcase str) "nil")))
 	       (or (get sym name) 'default-sexp-indent))
 	      (t 'default-sexp-indent))))
-    (list (funcall f sym start prev stop) start)))
+    (list
+      (if (numberp f)
+        (progn (goto-char start) (+ (current-column) f))
+        (funcall f sym start prev stop))
+      start)))
 
 (defun default-sexp-indent (name start prev stop)
   (goto-char start)
