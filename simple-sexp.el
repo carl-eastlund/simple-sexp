@@ -11,6 +11,8 @@
     (t (progn (put (car names) 'simple-sexp-indent-function f)
 	      (put-indent f (cdr names))))))
 
+(defvar simple-sexp-hook)
+
 (defun simple-sexp-setup ()
   (dotimes (ch 256)
     (let* ((pair (assq (char-syntax ch) simple-sexp-syntax-class-commands)))
@@ -30,7 +32,8 @@
   (put 'simple-sexp-balanced-string 'delete-selection t)
   (put 'simple-sexp-balanced-open 'delete-selection t)
   (put 'simple-sexp-balanced-close 'delete-selection t)
-  (put 'simple-sexp-balanced-escape 'delete-selection t))
+  (put 'simple-sexp-balanced-escape 'delete-selection t)
+  (run-hooks 'simple-sexp-hook))
 
 (defvar simple-sexp-syntax-class-commands
   '((?\( . simple-sexp-balanced-open)
